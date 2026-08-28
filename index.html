@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SGCC</title>
+  <meta name="description"
+    content="SGCC: Scientific GPU Compression Cyberinfrastructure, an NSF CSSI Elements project for portable GPU-accelerated data reduction.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#003399">
+  <link rel="canonical" href="https://mercury-hpg.github.io/SGCC-site/">
+  <link rel="preload" href="assets/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    // Applied before first paint so a forced theme never flashes the other one.
+    try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t } catch (e) { }
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SGCC">
+  <meta property="og:description"
+    content="SGCC: Scientific GPU Compression Cyberinfrastructure, an NSF CSSI Elements project for portable GPU-accelerated data reduction.">
+</head>
+
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav aria-label="Primary">
+      <ul class="banner">
+        <li class="brand-cell">
+          <a href="index.html" aria-current="page">
+            <span class="idx">Mercury</span>
+            <span class="label">SGCC</span>
+          </a>
+        </li>
+        <li><a href="#thrusts"><span class="idx">01</span><span class="label">Thrusts</span></a></li>
+        <li><a href="#parts"><span class="idx">02</span><span class="label">Builds on</span></a></li>
+        <li><a href="milestones.html"><span class="idx">03</span><span class="label">Milestones</span></a></li>
+        <li><a href="#award"><span class="idx">04</span><span class="label">Award</span></a></li>
+        <li><a class="ext" href="https://mercury-hpg.github.io/"><span class="idx"></span><span class="label">Page
+              Maintainer</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-id">
+          <h1>SGCC</h1>
+          <p class="role">Scientific GPU Compression Cyberinfrastructure</p>
+        </div>
+
+        <div class="bio">
+          <p>GPU hardware now carries exascale data production, but the cyberinfrastructure around
+            GPU-based scientific data compressors is still maturing. Existing frameworks are not
+            adapted to many data-analysis requirements, there are few user-friendly or
+            off-the-shelf solutions, and support for non-NVIDIA architectures is thin.</p>
+          <p><strong>SGCC</strong> builds a user-friendly, high-performance, portable
+            GPU-accelerated data-reduction cyberinfrastructure for GPU-equipped supercomputing
+            systems, by porting, extending, and optimizing capabilities that already exist.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="thrusts">
+      <div class="wrap">
+        <div class="section-head prose">
+          <h2>Thrusts</h2>
+        </div>
+        <ul class="themes">
+          <li>
+            <h3>Fit the workflows</h3>
+            <p>Efficiency and effectiveness in practical scientific data-analysis workflows, with
+              adequate support for diverse data formats and compression-quality targets.</p>
+          </li>
+          <li>
+            <h3>Make it usable</h3>
+            <p>High-level language bindings, a command-line interface, and a user interface
+              integrated with visualization.</p>
+          </li>
+          <li>
+            <h3>Make it portable</h3>
+            <p>State-of-the-art GPU-accelerated compressors running across NVIDIA, AMD, and Intel
+              platforms.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="parts">
+      <div class="wrap">
+        <div class="section-head prose">
+          <h2>What it builds on</h2>
+          <span class="hint">ported, extended, and optimized</span>
+        </div>
+        <ul class="people">
+          <li>
+            <p class="person"><span class="person-name"><a
+                  href="https://https://mercury-hpg.github.io/PSZ-site/">pSZ/cuSZ
+                  family</a></span> <span class="person-role">error-bounded lossy compressors</span></p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name">GPU lossless encoders</span> <span class="person-role">the
+                lossless stages</span></p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name">QCAT</span> <span class="person-role">CPU-based compression
+                quality assessment</span></p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name">Kokkos</span> <span class="person-role">multi-backend
+                performance portability</span></p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name">LibPressio</span> <span class="person-role">unified interface
+                for scientific compressors</span></p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name">HDF5</span> <span class="person-role">the storage layer</span>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="award">
+      <div class="wrap">
+        <div class="section-head prose">
+          <h2>Award</h2>
+        </div>
+        <div class="bio prose">
+          <p><em>Collaborative Research: Elements: SGCC: An Efficient GPU-oriented Data Reduction
+              Cyberinfrastructure for Scientific Data Analysis.</em></p>
+          <p>NSF Office of Advanced Cyberinfrastructure, CSSI Elements: one collaborative project
+            across three institutions, $599,988 in total.</p>
+        </div>
+        <ul class="people">
+          <li>
+            <p class="person"><span class="person-name"><a
+                  href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2514034">#2514034</a> &middot; University of
+                Houston</span>
+              <span class="person-role"><a href="https://chengmingzh8.github.io/">Chengming Zhang</a> &middot; <span
+                  class="num">$179,988</span></span>
+            </p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name"><a
+                  href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2514036">#2514036</a> &middot; University of
+                Chicago</span>
+              <span class="person-role"><a href="https://web.cels.anl.gov/~sdi/">Sheng Di</a> &middot; <span
+                  class="num">$240,000</span></span>
+            </p>
+          </li>
+          <li>
+            <p class="person"><span class="person-name"><a
+                  href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2609480">#2609480</a> &middot; Oakland
+                University</span>
+              <span class="person-role"><a href="https://jti.one/">Jiannan Tian</a> &middot; <span
+                  class="num">$180,000</span> &middot; (formerly <a
+                  href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2514035">#2514035</a> at the University of
+                Kentucky)</span>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>Site © Mercury High-Performance Group</span>
+    </div>
+  </footer>
+
+  <div class="theme-switch quiet" role="group" aria-label="Colour theme">
+    <button type="button" data-theme-set="light">Light</button>
+    <button type="button" data-theme-set="dark">Dark</button>
+    <button type="button" data-theme-set="auto">Auto</button>
+  </div>
+
+  <script>
+    // light/dark/auto. `auto` removes the attribute and lets the system's own
+    // prefers-color-scheme decide, which is why it is the default rather than a
+    // third palette.
+    (() => {
+      const root = document.documentElement
+      const btns = [...document.querySelectorAll('[data-theme-set]')]
+      const read = () => { try { return localStorage.getItem('theme') || 'auto' } catch (e) { return 'auto' } }
+      const apply = (t) => {
+        if (t === 'auto') delete root.dataset.theme
+        else root.dataset.theme = t
+        for (const b of btns) b.setAttribute('aria-pressed', String(b.dataset.themeSet === t))
+      }
+      apply(read())
+      for (const b of btns) b.addEventListener('click', () => {
+        const t = b.dataset.themeSet
+        try { localStorage.setItem('theme', t) } catch (e) { }
+        apply(t)
+      })
+    })()
+  </script>
+
+</body>
+
+</html>
