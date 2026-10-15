@@ -10,7 +10,6 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#003399">
   <link rel="canonical" href="https://mercury-hpg.github.io/SGCC-site/milestones.html">
-  <link rel="preload" href="assets/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/style.css">
   <script>
     // Applied before first paint so a forced theme never flashes the other one.
@@ -35,10 +34,11 @@
             <span class="label">SGCC</span>
           </a>
         </li>
-        <li><a href="index.html#thrusts"><span class="idx">01</span><span class="label">Thrusts</span></a></li>
-        <li><a href="index.html#parts"><span class="idx">02</span><span class="label">Builds on</span></a></li>
-        <li><a href="milestones.html" aria-current="page"><span class="idx">03</span><span class="label">Milestones</span></a></li>
-        <li><a href="index.html#award"><span class="idx">04</span><span class="label">Award</span></a></li>
+        <li><a href="index.html#award"><span class="idx">01</span><span class="label">Award</span></a></li>
+        <li><a href="index.html#thrusts"><span class="idx">02</span><span class="label">Thrusts</span></a></li>
+        <li><a href="index.html#parts"><span class="idx">03</span><span class="label">Builds on</span></a></li>
+        <li><a href="publications.html"><span class="idx">04</span><span class="label">Publications</span></a></li>
+        <li><a href="milestones.html" aria-current="page"><span class="idx">05</span><span class="label">Milestones</span></a></li>
         <li><a class="ext" href="https://mercury-hpg.github.io/"><span class="idx"></span><span class="label">Page
               Maintainer</span></a></li>
       </ul>
@@ -57,11 +57,9 @@
   </section>
 
   <section class="section" id="year1">
+    <div class="section-head tab"><h2>Year 1</h2></div>
     <div class="wrap">
-      <div class="section-head prose">
-        <h2>Year 1</h2>
-        <span class="hint">2025–2026</span>
-      </div>
+      <p class="tab-hint">2025–2026</p>
       <ul class="people">
         <li><p class="person"><span class="person-name">Workflow study and format coverage</span>
           <span class="person-role">Thrust 1 · survey the analysis workflows the
@@ -73,15 +71,29 @@
           <span class="person-role">Thrust 3 · the existing GPU compressors building and running
           on NVIDIA, as the reference the other platforms are measured against</span></p></li>
       </ul>
+      <p class="tab-hint doi-after"><a
+          href="https://doi.org/10.6084/m9.figshare.33652858">https://doi.org/10.6084/m9.figshare.33652858</a></p>
+      <div class="year1-embed">
+        <iframe src="https://widgets.figshare.com/articles/33652858/embed?show_title=0" title="SGCC on Figshare"
+          width="760" height="567" allow="fullscreen" allowfullscreen webkitallowfullscreen frameborder="0"
+          loading="lazy"></iframe>
+        <button type="button" class="embed-hit" data-fullscreen aria-label="View the poster fullscreen" hidden></button>
+        <div class="embed-tools">
+          <button type="button" class="embed-fs" data-fullscreen hidden><svg viewBox="0 0 12 12" width="11" height="11"
+            aria-hidden="true">
+            <path d="M1 4.5V1h3.5M7.5 1H11v3.5M11 7.5V11H7.5M4.5 11H1V7.5" fill="none" stroke="currentColor"
+              stroke-width="1.5" />
+          </svg>Fullscreen</button>
+          <a class="embed-cc" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="license noopener">CC BY 4.0</a>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="section" id="year2">
+    <div class="section-head tab"><h2>Year 2</h2></div>
     <div class="wrap">
-      <div class="section-head prose">
-        <h2>Year 2</h2>
-        <span class="hint">2026–2027</span>
-      </div>
+      <p class="tab-hint">2026–2027</p>
       <ul class="people">
         <li><p class="person"><span class="person-name">Language bindings</span>
           <span class="person-role">Thrust 2 · high-level interfaces, so using a GPU compressor
@@ -96,11 +108,9 @@
   </section>
 
   <section class="section" id="year3">
+    <div class="section-head tab"><h2>Year 3</h2></div>
     <div class="wrap">
-      <div class="section-head prose">
-        <h2>Year 3</h2>
-        <span class="hint">2027–2028</span>
-      </div>
+      <p class="tab-hint">2027–2028</p>
       <ul class="people">
         <li><p class="person"><span class="person-name">Visualization-integrated interface</span>
           <span class="person-role">Thrust 2 · the user interface that puts compression next to
@@ -158,6 +168,47 @@
         try { localStorage.setItem('theme', t) } catch (e) { }
         apply(t)
       })
+    })()
+  </script>
+
+  <script>
+    // Each hover lands the side-tab title on a random vivid hue, set on the section.
+    (() => {
+      for (const h2 of document.querySelectorAll('.section-head.tab h2')) {
+        const section = h2.closest('.section')
+        if (!section) continue
+        section.addEventListener('mouseenter', () => {
+          const hue = Math.floor(Math.random() * 360)
+          const sat = 60 + Math.random() * 20
+          const light = 42 + Math.random() * 16
+          section.style.setProperty('--tab-hover-color', `hsl(${hue}deg ${sat.toFixed(0)}% ${light.toFixed(0)}%)`)
+        })
+      }
+    })()
+  </script>
+
+  <script>
+    // The widget has no fullscreen control, so the poster and a button over its footer bar fullscreen the embed
+    // block, falling back to the frame itself. Failures go to the console.
+    (() => {
+      const box = document.querySelector('.year1-embed')
+      const frame = box && box.querySelector('iframe')
+      const btns = [...document.querySelectorAll('[data-fullscreen]')]
+      const ask = (el) => {
+        const fn = el.requestFullscreen || el.webkitRequestFullscreen || el.webkitRequestFullScreen
+        if (!fn) return Promise.reject(new Error('no fullscreen API on ' + el.tagName))
+        try { return Promise.resolve(fn.call(el)) } catch (e) { return Promise.reject(e) }
+      }
+      if (!box || !(box.requestFullscreen || box.webkitRequestFullscreen || box.webkitRequestFullScreen)) return
+      for (const b of btns) {
+        b.hidden = false
+        b.addEventListener('click', () => {
+          ask(box).catch((e) => {
+            console.warn('fullscreen on the embed block failed:', e)
+            return ask(frame)
+          }).catch((e) => console.warn('fullscreen on the frame failed:', e))
+        })
+      }
     })()
   </script>
 
