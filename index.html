@@ -10,6 +10,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#003399">
   <link rel="canonical" href="https://mercury-hpg.github.io/SGCC-site/">
+  <link rel="preconnect" href="https://widgets.figshare.com">
   <link rel="stylesheet" href="assets/style.css">
   <script>
     // Applied before first paint so a forced theme never flashes the other one.
@@ -118,16 +119,21 @@
             href="https://doi.org/10.6084/m9.figshare.33652858">https://doi.org/10.6084/m9.figshare.33652858</a></p>
         <div class="year1-embed">
           <iframe src="https://widgets.figshare.com/articles/33652858/embed?show_title=0" title="SGCC on Figshare"
-            width="760" height="567" allow="fullscreen" allowfullscreen webkitallowfullscreen frameborder="0"
-            loading="lazy"></iframe>
-          <button type="button" class="embed-hit" data-fullscreen aria-label="View the poster fullscreen"
+            width="760" height="567" allow="fullscreen" allowfullscreen webkitallowfullscreen frameborder="0"></iframe>
+          <div class="embed-ph" aria-hidden="true"></div>
+          <button type="button" class="embed-hit" aria-label="Enlarge the poster"
             hidden></button>
           <div class="embed-tools">
-            <button type="button" class="embed-fs" data-fullscreen hidden><svg viewBox="0 0 12 12" width="11"
+            <button type="button" class="embed-fs embed-enlarge" data-enlarge hidden><svg viewBox="0 0 12 12" width="11"
+                height="11" aria-hidden="true">
+                <path d="M7 1h4v4M5 11H1V7M11 1L7.5 4.5M1 11l3.5-3.5" fill="none" stroke="currentColor"
+                  stroke-width="1.5" />
+              </svg><span class="cap">Enlarge</span></button>
+            <button type="button" class="embed-fs embed-real" data-realfs hidden><svg viewBox="0 0 12 12" width="11"
                 height="11" aria-hidden="true">
                 <path d="M1 4.5V1h3.5M7.5 1H11v3.5M11 7.5V11H7.5M4.5 11H1V7.5" fill="none" stroke="currentColor"
                   stroke-width="1.5" />
-              </svg>Fullscreen</button>
+              </svg><span class="cap">Fullscreen</span></button>
             <a class="embed-cc" href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
               rel="license noopener">CC BY 4.0</a>
           </div>
@@ -233,28 +239,42 @@
   </script>
 
   <script>
-      // The widget has no fullscreen control, so the poster and a button over its footer bar fullscreen the embed
-      // block, falling back to the frame itself. Failures go to the console.
-      (() => {
-        const box = document.querySelector('.year1-embed')
-        const frame = box && box.querySelector('iframe')
-        const btns = [...document.querySelectorAll('[data-fullscreen]')]
-        const ask = (el) => {
-          const fn = el.requestFullscreen || el.webkitRequestFullscreen || el.webkitRequestFullScreen
-          if (!fn) return Promise.reject(new Error('no fullscreen API on ' + el.tagName))
-          try { return Promise.resolve(fn.call(el)) } catch (e) { return Promise.reject(e) }
-        }
-        if (!box || !(box.requestFullscreen || box.webkitRequestFullscreen || box.webkitRequestFullScreen)) return
-        for (const b of btns) {
-          b.hidden = false
-          b.addEventListener('click', () => {
-            ask(box).catch((e) => {
-              console.warn('fullscreen on the embed block failed:', e)
-              return ask(frame)
-            }).catch((e) => console.warn('fullscreen on the frame failed:', e))
-          })
-        }
-      })()
+    // Enlarge fills the browser window (the embed goes position: fixed); Fullscreen asks the browser for the real thing.
+    (() => {
+      const box = document.querySelector('.year1-embed')
+      if (!box) return
+      const hit = box.querySelector('.embed-hit')
+      const enlarge = box.querySelector('[data-enlarge]')
+      const real = box.querySelector('[data-realfs]')
+      const cap = (b, t) => { const s = b && b.querySelector('.cap'); if (s) s.textContent = t }
+      const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement
+      const enterFs = box.requestFullscreen || box.webkitRequestFullscreen
+      const leaveFs = () => (document.exitFullscreen || document.webkitExitFullscreen).call(document)
+
+      const setEnlarged = (open) => {
+        box.classList.toggle('expanded', open)
+        document.body.classList.toggle('embed-open', open)
+        cap(enlarge, open ? 'Close' : 'Enlarge')
+      }
+      const toggleEnlarge = () => (fsEl() === box ? leaveFs() : setEnlarged(!box.classList.contains('expanded')))
+      const toggleReal = () => {
+        if (fsEl() === box) return leaveFs()
+        try { Promise.resolve(enterFs.call(box)).catch(() => { }) } catch (e) { }
+      }
+      const syncFs = () => cap(real, fsEl() === box ? 'Exit' : 'Fullscreen')
+
+      hit.hidden = false
+      hit.addEventListener('click', toggleEnlarge)
+      enlarge.hidden = false
+      enlarge.addEventListener('click', toggleEnlarge)
+      if (enterFs && (document.exitFullscreen || document.webkitExitFullscreen)) {
+        real.hidden = false
+        real.addEventListener('click', toggleReal)
+        document.addEventListener('fullscreenchange', syncFs)
+        document.addEventListener('webkitfullscreenchange', syncFs)
+      }
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && box.classList.contains('expanded') && !fsEl()) setEnlarged(false) })
+    })()
   </script>
 
   <script>
@@ -270,6 +290,25 @@
             section.style.setProperty('--tab-hover-color', `hsl(${hue}deg ${sat.toFixed(0)}% ${light.toFixed(0)}%)`)
           })
         }
+      })()
+  </script>
+
+  <script>
+      // Dissolve the blurred placeholder once the Figshare frame has loaded (plus a beat for the poster inside it to paint).
+      (() => {
+        const box = document.querySelector('.year1-embed')
+        const frame = box && box.querySelector('iframe')
+        const ph = box && box.querySelector('.embed-ph')
+        if (!frame || !ph) return
+        let done = false
+        const reveal = () => {
+          if (done) return
+          done = true
+          ph.classList.add('gone')
+          setTimeout(() => ph.remove(), 1100)
+        }
+        frame.addEventListener('load', () => setTimeout(reveal, 900))
+        setTimeout(reveal, 15000)
       })()
   </script>
 
