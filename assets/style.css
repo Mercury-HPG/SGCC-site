@@ -269,6 +269,8 @@ a:hover { text-decoration-color: currentColor; }
 .tab-hint { margin: 0 0 .7rem; font-size: .9rem; color: var(--muted); }
 .tab-hint a { color: inherit; text-decoration: underline; }
 .tab-hint.doi-after { margin-top: 1rem; }
+.embed-meta { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.embed-meta .links { margin-left: 0; vertical-align: baseline; }
 
 /* ---------- side tabs: the section title stands vertically left of the column ---------- */
 
