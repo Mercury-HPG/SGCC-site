@@ -269,8 +269,156 @@ a:hover { text-decoration-color: currentColor; }
 .tab-hint { margin: 0 0 .7rem; font-size: .9rem; color: var(--muted); }
 .tab-hint a { color: inherit; text-decoration: underline; }
 .tab-hint.doi-after { margin-top: 1rem; }
-.embed-meta { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.embed-meta { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
 .embed-meta .links { margin-left: 0; vertical-align: baseline; }
+.embed-meta .links a { text-decoration: none; }
+
+/* ---------- banner hover panel (PIs) ---------- */
+
+.pis-panel {
+  position: absolute;
+  top: 100%;
+  z-index: 25;
+  min-width: 11rem;
+  padding: .5rem .8rem .55rem;
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  border-top: 0;
+  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, .28);
+  color: var(--fg);
+  font-size: .82rem;
+  letter-spacing: -.01em;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.pis-panel[hidden] { display: none; }
+.pis-panel p { display: flex; align-items: center; margin: 0; }
+.pis-panel .pis-name { min-width: 5.4rem; }
+.pis-panel a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule-strong); }
+.pis-panel a:hover { text-decoration-color: currentColor; }
+.pis-panel .quiet { margin-left: 0; padding: 1px; }
+.pis-panel .quiet a { padding: .02rem .4rem; color: var(--muted); font-size: .72rem; line-height: 1.4; text-decoration: none; }
+.pis-panel .quiet a:hover { color: var(--fg); }
+.pis-panel p + p { margin-top: .3rem; }
+@media (max-width: 46rem) { .pis-panel { font-size: .88rem; } }
+.pis-panel .pis-note { color: var(--muted); font-size: .66rem; line-height: 1.2; }
+.pis-panel .pis-note + p { margin-top: -.1rem; }
+
+/* ---------- thrusts: three pills under the intro; hover recolours one and drops its description ---------- */
+
+.thrusts { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.1rem 0 0; }
+
+.thrust { position: relative; display: inline-block; outline: none; --tc: var(--rule-strong); --tf: var(--fg); }
+.thrust[data-t="1"] { --tc: #f4c20d; --tf: #1a1a1a; }
+.thrust[data-t="2"] { --tc: #d3151b; --tf: #fff; }
+.thrust[data-t="3"] { --tc: #9db9ec; --tf: #000; }
+
+.thrust-pill {
+  display: inline-block;
+  padding: .14rem .7rem;
+  border: 1px solid color-mix(in srgb, var(--rule-strong) 75%, var(--bg));
+  border-radius: 999px;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--rule-strong) 40%, var(--bg)), color-mix(in srgb, var(--rule-strong) 75%, var(--bg)));
+  color: var(--fg);
+  font-size: .8rem;
+  line-height: 1.5;
+  cursor: default;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.thrust:hover .thrust-pill, .thrust:focus-within .thrust-pill, .thrust:focus .thrust-pill {
+  background: var(--tc);
+  border-color: var(--tc);
+  color: var(--tf);
+}
+
+.thrust-tip {
+  position: absolute;
+  top: calc(100% + .45rem);
+  left: 0;
+  z-index: 10;
+  width: max-content;
+  max-width: min(26rem, 88vw);
+  padding: .7rem 1rem .75rem;
+  border: 1px solid var(--tc);
+  border-radius: 8px;
+  background: linear-gradient(to bottom, var(--tc), color-mix(in srgb, var(--tc) 86%, #000));
+  box-shadow: 0 12px 24px -14px rgba(0, 0, 0, .4);
+  color: var(--tf);
+  font-size: 1em;
+  font-weight: 500;
+  line-height: 1.55;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility 0s linear .18s;
+}
+.thrust:last-child .thrust-tip { left: auto; right: 0; }
+.thrust-tip::before { content: ""; position: absolute; left: 0; right: 0; top: -.5rem; height: .5rem; }
+.thrust:hover .thrust-tip, .thrust:focus-within .thrust-tip, .thrust:focus .thrust-tip {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .18s ease;
+}
+
+#award a { color: var(--fg); }
+
+/* "What it builds on": links stay plain text colour */
+#parts a { color: var(--fg); }
+
+/* "Year-1 Milestones": the Presented-at link stays plain text colour */
+#year1 .embed-meta > span:first-child a { color: var(--fg); }
+
+/* the award's title: bold and upright; on hover a box in the section title's hover colour (tinted, so the text stays legible) wipes in behind the words, left to right */
+.award-title {
+  --box: color-mix(in srgb, var(--tab-hover-color, var(--accent)) 30%, transparent);
+  font-size: 1.07em;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--fg);
+  padding: .06em .3em;
+  margin: 0 -.3em;
+  border-radius: 4px;
+  background: linear-gradient(var(--box), var(--box)) no-repeat 0 50% / 0 100%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size .45s ease;
+}
+.award-title:hover { background-size: 100% 100%; }
+@media (prefers-reduced-motion: reduce) { .award-title { transition: none; } }
+
+/* ---------- award line under the page title; hover drops the rest of the award ---------- */
+
+.award-section .hero-id { margin-bottom: .55rem; }
+.award-section { padding-top: .5rem; }
+/* the vertical title starts level with the SGCC heading (relative, not margin: a margin on the zero-height head would collapse out of the section) */
+@media (min-width: 64rem) { .award-section .section-head.tab { position: relative; top: .6rem; } }
+.award-section .bio { margin-top: .85rem; color: var(--fg-soft); }
+.award-section .bio strong { color: var(--fg); font-weight: 600; }
+
+.award-hover { position: relative; display: block; outline: none; }
+.award-line { margin: 0; }
+
+.award-tip {
+  position: absolute;
+  top: calc(100% + .5rem);
+  left: 0;
+  z-index: 15;
+  width: min(36rem, 92vw);
+  padding: .8rem 1rem .6rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 8px;
+  background: var(--bg);
+  box-shadow: 0 14px 28px -14px rgba(0, 0, 0, .32);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility 0s linear .18s;
+}
+.award-tip::before { content: ""; position: absolute; left: 0; right: 0; top: -.6rem; height: .6rem; }
+.award-tip > p { margin: 0 0 .5rem; color: var(--fg-soft); }
+.award-hover:hover .award-tip, .award-hover:focus-within .award-tip, .award-hover:focus .award-tip {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .18s ease;
+}
 
 /* ---------- side tabs: the section title stands vertically left of the column ---------- */
 
@@ -287,10 +435,9 @@ a:hover { text-decoration-color: currentColor; }
     border: 0;
   }
 
-  .section-head.tab + .wrap {
-    padding-top: .35rem;
-    border-top: 1px solid var(--rule);
-  }
+  .section-head.tab + .wrap { padding-top: .35rem; }
+  /* the vertical title starts level with the first line of the section */
+  .section-head.tab { position: relative; top: .5rem; }
 
   .section-head.tab h2 {
     writing-mode: vertical-rl;
@@ -335,7 +482,8 @@ p:last-child { margin-bottom: 0; }
   height: auto;
 }
 
-.hero h1 {
+.hero h1,
+.award-section h1 {
   margin: 0 0 .3rem;
   font-size: clamp(1.75rem, 1.2rem + 2vw, 2.4rem);
   line-height: 1.08;
@@ -452,7 +600,8 @@ body.embed-open { overflow: hidden; }
   gap: .3rem .9rem;
 }
 
-.hero .role {
+.hero .role,
+.award-section .role {
   margin: 0;
   color: var(--fg-soft);
   font-size: 1.02rem;
@@ -938,6 +1087,7 @@ code { font-size: .92em; color: var(--fg); }
     border-bottom: 0;
     background: linear-gradient(90deg, var(--accent) 0, transparent 62%) bottom / 100% 1px no-repeat;
   }
+  .section-head.tab { background: none; border-bottom: 0; }
 
   .card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule-strong)); }
 
