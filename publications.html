@@ -64,11 +64,11 @@
             <thead>
               <tr>
                 <th scope="col">Peer-reviewed papers<span class="inst">SGCC PIs are in boldface.</span></th>
-                <th scope="col"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2514034">#2514034</a><span
+                <th scope="col"><button type="button" class="award-filter" aria-pressed="false" data-col="0">#2514034</button><span
                     class="inst">Houston</span></th>
-                <th scope="col"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2514036">#2514036</a><span
+                <th scope="col"><button type="button" class="award-filter" aria-pressed="false" data-col="1">#2514036</button><span
                     class="inst">Chicago</span></th>
-                <th scope="col"><span class="tip" tabindex="0" data-tip="Formerly #2514035 at the University of Kentucky"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2609480">#2609480</a></span><span
+                <th scope="col"><span class="tip" tabindex="0" data-tip="Formerly #2514035 at the University of Kentucky"><button type="button" class="award-filter" aria-pressed="false" data-col="2">#2609480</button></span><span
                     class="inst">Oakland</span></th>
               </tr>
             </thead>
@@ -398,6 +398,31 @@
             console.warn('fullscreen on the embed block failed:', e)
             return ask(frame)
           }).catch((e) => console.warn('fullscreen on the frame failed:', e))
+        })
+      }
+    })()
+  </script>
+
+  <script>
+    // Clicking a funding number filters the table to the papers marked under it (that award's PI); click again to clear.
+    (() => {
+      const table = document.querySelector('.pubtable')
+      if (!table) return
+      const buttons = [...table.querySelectorAll('.award-filter')]
+      const rows = [...table.querySelectorAll('tbody tr')]
+      const apply = (col) => {
+        for (const b of buttons) b.setAttribute('aria-pressed', String(Number(b.dataset.col) === col))
+        for (const r of rows) {
+          const mark = r.querySelectorAll('td.mark')[col]
+          r.hidden = col >= 0 && !(mark && mark.textContent.trim())
+        }
+      }
+      let active = -1
+      for (const b of buttons) {
+        b.addEventListener('click', () => {
+          const col = Number(b.dataset.col)
+          active = active === col ? -1 : col
+          apply(active)
         })
       }
     })()

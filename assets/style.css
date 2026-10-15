@@ -580,6 +580,19 @@ body.embed-open { overflow: hidden; }
 .pubtable .doi a { color: inherit; }
 .pubtable .authors { font-size: .76rem; color: var(--fg-soft); }
 .pubnote { margin-top: .7rem; }
+.pubtable .award-filter {
+  appearance: none;
+  padding: .05rem .35rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.pubtable .award-filter:hover { background: color-mix(in srgb, var(--fg) 8%, var(--bg)); }
+.pubtable .award-filter[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.pubtable tbody tr[hidden] { display: none; }
 .pubtable .tip { position: relative; display: inline-block; outline: none; }
 .pubtable .tip::after {
   content: attr(data-tip);
